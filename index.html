@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Google Map API</title>
+    <style type="text/css">
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: "Roboto", "sans-serif";
+            line-height: 30px;
+            padding-left: 10px;
+        }
+    </style>
+    <script>
+        function initMap() {
+            const UTC2 = { lat: 10.845952087205108, lng: 106.7945085316454 };
+            const myHome = {lat:10.843711438774685, lng:106.79519339577138};
+            const BuuDien = {lat: 10.780037063846809,lng: 106.69990749617736};
+            const VanMieu = { lat: 21.027547473014188, lng: 105.83542876752584};
+
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: BuuDien,
+            });
+           
+            const markerUTC2 = new google.maps.Marker({
+            position: UTC2,
+            map: map,
+            label: "UTC2",
+            icon : "utc2.png",
+            title : "ĐẠI HỌC GTVT PHÂN HIỆU TẠI THÀNH PHỐ HỒ CHÍ MINH",
+            });
+
+            const marketVanMieu = new google.maps.Marker({
+            position: VanMieu,
+            map: map,
+            label: "Văn Miếu",
+            //  icon : imgVanMieu,
+            title : "VĂN MIẾU QUỐC TỬ GIÁM",          
+             });
+             const marketBuuDien = new google.maps.Marker({
+            position: BuuDien,
+            map: map,
+            label: "Bưu điện",
+           // icon : imgBuuDien,
+            title : "BƯU ĐIỆN TRUNG TÂM THÀNH PHỐ HỒ CHÍ MINH",          
+             });
+
+            const markerMyHome = new google.maps.Marker({
+            position: myHome,
+            map: map,
+            label: "KTX",
+            title : "KTX UTC2"
+             });
+            
+            const infoUTC2 = "Trường Đại Học GTVT Phân hiệu TP.HCM<br>Địa chỉ:450 Lê Văn Việt, TNPA, Quận 9(TP.Thủ Đức),TP.HCM";
+            const myInfo = "Võ Văn Kha<br>MSV:5951071040<br>Ngày sinh: 19/10/2000 (21 tuổi)<br>Quê quán: Quảng Ngãi<Email>:vankha2000@gmail.com";
+            const infoBuuDien="Bưu điện trung tâm Sài Gòn[1] là một trong những công trình kiến trúc tiêu biểu tại Thành phố Hồ Chí Minh,  tọa lạc tại số 2, Công trường Công xã Paris, Quận 1. Đây là tòa nhà được người Pháp xây dựng trong khoảng năm 1886–1891 với phong cách châu Âu theo đồ án thiết kế của kiến trúc sư Villedieu cùng phụ tá Foulhoux. Đây là công trình kiến trúc mang phong cách phương Tây kết hợp với nét trang trí phương Đông.";
+            const infoVanMieu="Văn Miếu – Quốc Tử Giám (chữ Hán: 文廟-國子監) là quần thể di tích đa dạng và phong phú hàng đầu của thủ đô Hà Nội,<br> nằm ở phía nam Kinh thành Thăng Long. Quần thể kiến trúc Văn Miếu – Quốc Tử Giám bao gồm: hồ Văn, khu Văn Miếu – Quốc Tử Giám và vườn Giám; trong đó, kiến trúc chủ thể là Văn Miếu (nơi thờ Khổng Tử) và Quốc Tử Giám. Với hơn 700 năm hoạt động, đã đào tạo hàng nghìn nhân tài cho đất nước, Quốc Tử Giám được coi như là trường đại học đầu tiên của Việt Nam và cũng là biểu tượng cho nền khoa cử thời phong kiến của nước này.";   
+
+            const infoWindowUTC2 = new google.maps.InfoWindow({
+                content: infoUTC2,});
+            const infoWindowK = new google.maps.InfoWindow({
+                content: myInfo,});
+            const infoWindowBuuDien = new google.maps.InfoWindow({
+                content:infoBuuDien,
+            })
+            const infoWindowVanMieu = new google.maps.InfoWindow({
+                content:infoVanMieu,
+            })
+
+            markerUTC2.addListener("click",() => {
+                infoWindowUTC2.open(map,markerUTC2);
+                });
+            markerMyHome.addListener("click",() => {
+                infoWindowK.open(map,markerMyHome);
+                });
+            marketBuuDien.addListener("click",() => {
+                infoWindowBuuDien.open(map,marketBuuDien);
+            })
+            marketVanMieu.addListener("click",() => {
+                infoWindowVanMieu.open(map,marketVanMieu);
+            })
+
+            const BuuDienCircle = new google.maps.Circle({
+                strokeColor: "#00FF00",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#4286F4",
+                fillOpacity: 0.35,
+                center: BuuDien,
+                radius: 13000,
+                map
+            });
+            const point = [
+                {lat:10.982862212487552,lng:106.7207176998754 },
+                {lat:10.661737390355299, lng:106.42696009617597 },
+                {lat:10.66437420656534, lng:106.90334557713905 },
+            ];
+            const TamGiacNgoaiTiep = new google.maps.Polygon({
+                path:point,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35,
+                
+            });
+            TamGiacNgoaiTiep.setMap(map);
+
+            const point1 = [
+                {lat:10.896034189928375,lng:106.7143570846589 },
+                {lat:10.736430031665678, lng:106.5897056552859 },
+                {lat:10.718166276167112, lng:106.8008992392575 },
+            ];
+            const TamGiacNoiTiep = new google.maps.Polygon({
+                path:point1,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35,
+              
+            });
+            TamGiacNoiTiep.setMap(map);
+
+            const VanMieuCircle = new google.maps.Circle({
+                strokeColor: "#00FF00",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#4286F4",
+                fillOpacity: 0.35,
+                center: VanMieu,
+                radius: 13000,
+                map
+            });
+            const point2 = [
+                {lat:21.215860290905916,lng:105.92553027244566 },
+                {lat:20.98470984757313, lng:105.52123652898422},
+                {lat:20.866953602823926, lng:105.99580609490624},
+            ];
+            const TamGiacNgoaiTiep2 = new google.maps.Polygon({
+                path:point2,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35,
+                
+            });
+           TamGiacNgoaiTiep2.setMap(map);
+            const point3 = [
+                {lat:21.124660358819874,lng:105.90607635454275 },
+                {lat:20.947045604525933, lng:105.92736067214771},
+                {lat:21.024463504376577, lng:105.71036541251121},
+            ];
+            const TamGiacNoiTiep2 = new google.maps.Polygon({
+                path:point3,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35,
+                
+            });
+            TamGiacNoiTiep2.setMap(map);
+
+            // Direction
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+
+            const onChangeHandler = function () {
+                calculateAndDisplayRoute(directionsService, directionsRenderer);
+            };
+            document.getElementById("start").addEventListener("change", onChangeHandler);
+            document.getElementById("end").addEventListener("change", onChangeHandler);}
+            function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+                directionsService.route(
+                    {
+                        origin: {
+                            query: document.getElementById("start").value,
+                        },
+                        destination: {
+                            query: document.getElementById("end").value,
+                        },
+                        travelMode: google.maps.TravelMode.DRIVING,
+                    },
+                    (response, status) => {
+                        if (status === "OK") {
+                            directionsRenderer.setDirections(response);
+                        } else {window.alert("Directions request failed due to " + status);}});
+            }
+
+        
+    </script>
+</head>
+<body>
+    <h3>Đặt bản đồ tại đây</h3>
+    <div id="floating-panel">
+        <b>Start: </b>
+        <select id="start">
+            <option value="ĐẠI HỌC GTVT PHÂN HIỆU TẠI THÀNH PHỐ HỒ CHÍ MINH">UTC2</option>
+            <option value="KÍ TÚC XÁ ĐẠI HỌC GIAO THÔNG VẬN TẢI PHÂN HIỆU TẠI TP.HCM">My Home</option>
+            <option value="BƯU ĐIỆN TRUNG TÂM THÀNH PHỐ HỒ CHÍ MINH">Bưu điện thành phố HCM</option>
+            <option value="Văn Miếu Quốc Tử Giám">Văn miếu quốc tử giám</option>
+        </select>
+        <b>End: </b>
+        <select id="end">
+            <option value="Văn Miếu Quốc Tử Giám">Văn miếu quốc tử giám</option>
+            <option value="KÍ TÚC XÁ ĐẠI HỌC GIAO THÔNG VẬN TẢI PHÂN HIỆU TẠI TP.HCM">My Home</option>
+            <option value="ĐẠI HỌC GTVT PHÂN HIỆU TẠI THÀNH PHỐ HỒ CHÍ MINH">UTC2</option>
+            <option value="BƯU ĐIỆN TRUNG TÂM THÀNH PHỐ HỒ CHÍ MINH">Bưu điện thành phố HCM</option>
+        </select>
+    </div>
+    <div id="map"></div>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=drawing&v=weekly"
+        async></script>
+</body>
+</html>
